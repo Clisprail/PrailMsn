@@ -1,9 +1,8 @@
 package com.para.listeners;
 
-import javax.swing.DefaultListModel;
-
 import com.para.data.Constants;
 import com.para.data.Log;
+import com.para.gui.Contacts;
 import com.para.gui.MessengerInterface;
 import com.para.utils.Msn;
 
@@ -14,7 +13,6 @@ import net.sf.jml.MsnGroup;
 import net.sf.jml.MsnList;
 import net.sf.jml.MsnMessenger;
 import net.sf.jml.MsnSwitchboard;
-import net.sf.jml.MsnUserStatus;
 import net.sf.jml.event.MsnContactListListener;
 import net.sf.jml.event.MsnEmailListener;
 import net.sf.jml.event.MsnFileTransferListener;
@@ -72,16 +70,7 @@ public class MsnListener implements MsnContactListListener, MsnEmailListener,
 	@Override
 	public void contactListInitCompleted(MsnMessenger m) {
 		Log.print("contactListInitCompleted");
-		DefaultListModel model = new DefaultListModel();
-		int a = 0;
-		for(MsnContact c : m.getContactList().getContacts()) {
-			if(!c.getStatus().equals(MsnUserStatus.OFFLINE)) {
-				model.add(a, c.getFriendlyName() + " - " + c.getEmail().toString());
-				Log.print(c.getFriendlyName() + " - " + c.getEmail().toString());
-				a++;
-			}
-		}
-		MessengerInterface.jList1.setModel(model);
+		Contacts.addAll();
 	}
 
 	@Override

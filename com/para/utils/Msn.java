@@ -25,6 +25,15 @@ public class Msn {
 		}
 	}
 	
+	public static MsnContact getContact(String email) {
+		return getContact(Email.parseStr(email));
+	}
+	
+	public static MsnContact getContact(Email email) {
+		final MsnMessenger m = Constants.messenger;
+		return m.getContactList().getContactByEmail(email);
+	}
+	
 	
 	public static MsnSwitchboard getSwitchboard(final String email) {
 		return getSwitchboard(Email.parseStr(email));
@@ -41,7 +50,7 @@ public class Msn {
 			}
 		}
 		// TODO
-		
+		messenger.sendText(email, "");
 		return null;
 	}
 	
