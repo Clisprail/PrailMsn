@@ -47,6 +47,10 @@ public class Contacts {
 		}
 		update();
 	}
+	
+	public static void typingMessage(String email) {
+		// called when user is typing message to you
+	}
  	
 	
 

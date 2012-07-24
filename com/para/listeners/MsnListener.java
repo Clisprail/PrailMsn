@@ -13,6 +13,7 @@ import net.sf.jml.MsnGroup;
 import net.sf.jml.MsnList;
 import net.sf.jml.MsnMessenger;
 import net.sf.jml.MsnSwitchboard;
+import net.sf.jml.MsnUserStatus;
 import net.sf.jml.event.MsnContactListListener;
 import net.sf.jml.event.MsnEmailListener;
 import net.sf.jml.event.MsnFileTransferListener;
@@ -101,8 +102,13 @@ public class MsnListener implements MsnContactListListener, MsnEmailListener,
 	}
 
 	@Override
-	public void contactStatusChanged(MsnMessenger arg0, MsnContact arg1) {
-
+	public void contactStatusChanged(MsnMessenger m, MsnContact c) {
+		Log.print(c.getDisplayName() + " changed status " + c.getOldStatus().toString() + " to " + c.getStatus().toString());
+		if(c.getOldStatus().equals(MsnUserStatus.OFFLINE)) {
+			Contacts.add(c.getEmail().getEmailAddress());
+		} else if(c.getStatus().equals(MsnUserStatus.OFFLINE)) {
+			Contacts.remove(c.getEmail().getEmailAddress());
+		}
 	}
 
 	@Override
@@ -150,8 +156,10 @@ public class MsnListener implements MsnContactListListener, MsnEmailListener,
 	}
 
 	@Override
-	public void controlMessageReceived(MsnSwitchboard arg0,
-			MsnControlMessage arg1, MsnContact arg2) {
+	public void controlMessageReceived(MsnSwitchboard s,
+			MsnControlMessage message, MsnContact c) {
+		Log.print(c.getFriendlyName() + " is typing a message.");
+		Contacts.typingMessage(c.getEmail().getEmailAddress());
 
 	}
 
