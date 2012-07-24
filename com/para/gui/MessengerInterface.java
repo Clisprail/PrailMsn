@@ -3,7 +3,7 @@ package com.para.gui;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import com.para.data.Constants;
-import com.parabot.utils.Msn;
+import com.para.utils.Msn;
 
 /**
  *

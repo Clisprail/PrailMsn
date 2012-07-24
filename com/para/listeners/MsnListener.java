@@ -5,7 +5,7 @@ import javax.swing.DefaultListModel;
 import com.para.data.Constants;
 import com.para.data.Log;
 import com.para.gui.MessengerInterface;
-import com.parabot.utils.Msn;
+import com.para.utils.Msn;
 
 import net.sf.jml.MsnContact;
 import net.sf.jml.MsnContactPending;

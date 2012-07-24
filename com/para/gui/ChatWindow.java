@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import net.sf.jml.Email;
 
 import com.para.data.Constants;
-import com.parabot.utils.Msn;
+import com.para.utils.Msn;
 
 /**
  *
