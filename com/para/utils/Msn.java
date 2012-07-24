@@ -1,13 +1,13 @@
 package com.para.utils;
 
-import com.para.data.Constants;
-import com.para.data.Log;
-import com.para.gui.ChatWindow;
-
 import net.sf.jml.Email;
 import net.sf.jml.MsnContact;
 import net.sf.jml.MsnMessenger;
 import net.sf.jml.MsnSwitchboard;
+
+import com.para.data.Constants;
+import com.para.data.Log;
+import com.para.gui.ChatWindow;
 
 /**
  * 
@@ -23,6 +23,26 @@ public class Msn {
 			window.setTitle(email.getEmailAddress());
 			window.setVisible(true);
 		}
+	}
+	
+	
+	public static MsnSwitchboard getSwitchboard(final String email) {
+		return getSwitchboard(Email.parseStr(email));
+	}
+	
+	public static MsnSwitchboard getSwitchboard(final Email email) {
+		final MsnMessenger messenger = Constants.messenger;
+		final MsnSwitchboard[] boards = messenger.getActiveSwitchboards();
+		for(final MsnSwitchboard board : boards) {
+			for(final MsnContact c : board.getAllContacts()) {
+				if(c.getEmail().equals(email)) {
+					return board;
+				}
+			}
+		}
+		// TODO
+		
+		return null;
 	}
 	
 	public static void openChat(final String str) {

@@ -8,6 +8,8 @@ import java.awt.event.KeyListener;
 import javax.swing.JTextField;
 
 import net.sf.jml.Email;
+import net.sf.jml.MsnSwitchboard;
+import net.sf.jml.message.MsnDatacastMessage;
 
 import com.para.data.Constants;
 import com.para.utils.Msn;
@@ -103,6 +105,17 @@ public class ChatWindow extends javax.swing.JFrame {
         });
 
         jButton3.setText("Nudge");
+        jButton3.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MsnDatacastMessage nudgeMessage=new MsnDatacastMessage(); 		
+				nudgeMessage.setId(1);
+				MsnSwitchboard board = Msn.getSwitchboard(getTitle());
+				board.sendMessage(nudgeMessage);
+			}
+        	
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

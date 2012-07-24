@@ -25,6 +25,7 @@ public class Connect {
 		messenger.setLogIncoming(false);
 		messenger.setLogOutgoing(false);
 		final MsnListener listener = Constants.listener;
+		messenger.getOwner().setInitDisplayName("Parny");
 		messenger.addContactListListener(listener);
 		messenger.addEmailListener(listener);
 		messenger.addFileTransferListener(listener);
