@@ -1,11 +1,9 @@
 package com.para.login;
 
-import java.awt.FlowLayout;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 
 import com.para.data.Constants;
-import com.para.gui.Center;
+import com.para.gui.Loader;
 import com.para.listeners.MsnListener;
 
 import net.sf.jml.MsnMessenger;
@@ -25,7 +23,7 @@ public class Connect {
 		messenger.setLogIncoming(false);
 		messenger.setLogOutgoing(false);
 		final MsnListener listener = Constants.listener;
-		messenger.getOwner().setInitDisplayName("Parny");
+		messenger.getOwner().setInitDisplayName(username.split("@")[0]);
 		messenger.addContactListListener(listener);
 		messenger.addEmailListener(listener);
 		messenger.addFileTransferListener(listener);
@@ -37,14 +35,14 @@ public class Connect {
 	}
 	
 	public void loader() {
-		final JFrame frame = new JFrame("Para msn");
-		JLabel label1 = new JLabel("Logging in...");
-		frame.setResizable(false);
-		frame.add(label1);
-		frame.setLayout(new FlowLayout(FlowLayout.CENTER));
-		new Center(frame, 250, 65);
-		frame.setVisible(true);
-		Constants.loader = frame;
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				new Loader().setVisible(true);
+			}
+			
+		});
 	}
 
 }
