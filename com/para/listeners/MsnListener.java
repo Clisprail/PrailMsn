@@ -1,9 +1,10 @@
 package com.para.listeners;
 
-import javax.swing.DefaultListModel;
+import javax.swing.SwingUtilities;
 
 import com.para.data.Constants;
 import com.para.data.Log;
+import com.para.gui.Contacts;
 import com.para.gui.MessengerInterface;
 import com.para.utils.Msn;
 
@@ -72,16 +73,7 @@ public class MsnListener implements MsnContactListListener, MsnEmailListener,
 	@Override
 	public void contactListInitCompleted(MsnMessenger m) {
 		Log.print("contactListInitCompleted");
-		DefaultListModel model = new DefaultListModel();
-		int a = 0;
-		for(MsnContact c : m.getContactList().getContacts()) {
-			if(!c.getStatus().equals(MsnUserStatus.OFFLINE)) {
-				model.add(a, c.getFriendlyName() + " - " + c.getEmail().toString());
-				Log.print(c.getFriendlyName() + " - " + c.getEmail().toString());
-				a++;
-			}
-		}
-		MessengerInterface.jList1.setModel(model);
+		Contacts.addAll();
 	}
 
 	@Override
@@ -112,8 +104,16 @@ public class MsnListener implements MsnContactListListener, MsnEmailListener,
 	}
 
 	@Override
-	public void contactStatusChanged(MsnMessenger arg0, MsnContact arg1) {
-
+	public void contactStatusChanged(MsnMessenger m, MsnContact c) {
+		Log.print(c.getDisplayName() + " changed status " + c.getOldStatus().toString() + " to " + c.getStatus().toString());
+		if(c.getOldStatus().equals(MsnUserStatus.OFFLINE)) {
+			Contacts.add(c.getEmail().getEmailAddress());
+		} else if(c.getStatus().equals(MsnUserStatus.OFFLINE)) {
+			Contacts.remove(c.getEmail().getEmailAddress());
+		} else {
+			// update status image icon
+			Contacts.update();
+		}
 	}
 
 	@Override
@@ -161,8 +161,10 @@ public class MsnListener implements MsnContactListListener, MsnEmailListener,
 	}
 
 	@Override
-	public void controlMessageReceived(MsnSwitchboard arg0,
-			MsnControlMessage arg1, MsnContact arg2) {
+	public void controlMessageReceived(MsnSwitchboard s,
+			MsnControlMessage message, MsnContact c) {
+		Log.print(c.getFriendlyName() + " is typing a message.");
+		Contacts.typingMessage(c.getEmail().getEmailAddress());
 
 	}
 
@@ -212,7 +214,14 @@ public class MsnListener implements MsnContactListListener, MsnEmailListener,
 		Log.print("Logged " + messenger.getOwner().getEmail().toString()
 				+ " in.");
 		Constants.loader.dispose();
-		new MessengerInterface().setVisible(true);
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				new MessengerInterface().setVisible(true);
+			}
+			
+		});
 		Constants.messenger = messenger;
 	}
 
